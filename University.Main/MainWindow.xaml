@@ -19,11 +19,14 @@
             <TabItem Header="Students" Tag="&#xE779;">
                 <ContentControl Content="{Binding StudentsSubView}" />
             </TabItem>
-            <TabItem Header="Subjects" Tag="&#xE82D;">
-                <ContentControl Content="{Binding SubjectsSubView}" />
+            <TabItem Header="Courses" Tag="&#xE82D;">
+                <ContentControl Content="{Binding CoursesSubView}" />
             </TabItem>
             <TabItem Header="Search" Tag="&#xE773;">
                 <ContentControl Content="{Binding SearchSubView}" />
+            </TabItem>
+            <TabItem Header="Faculty Member">
+                <ContentControl Content="{Binding FacultyMembersSubView}" />
             </TabItem>
         </TabControl>
     </Grid>

@@ -56,6 +56,50 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
                     return "Birth Date is Required";
                 }
             }
+            if (columnName == "Gender")
+            {
+                if (string.IsNullOrEmpty(Gender))
+                {
+                    return "Gender is Required";
+                }
+            }
+            if (columnName == "PlaceOfBirth")
+            {
+                if (string.IsNullOrEmpty(PlaceOfBirth))
+                {
+                    return "Place of Birth is Required";
+                }
+            }
+            if (columnName == "PlaceOfResidence")
+            {
+                if (string.IsNullOrEmpty(PlaceOfResidence))
+                {
+                    return "Place of Residence is Required";
+                }
+            }
+            if (columnName == "AddressLine1")
+            {
+                if (string.IsNullOrEmpty(AddressLine1))
+                {
+                    return "Address Line 1 is Required";
+                }
+            }
+            if (columnName == "AddressLine2")
+            {
+                if (string.IsNullOrEmpty(AddressLine2))
+                {
+                    return "Address Line 2 is Required";
+                }
+            }
+            if (columnName == "PostalCode")
+            {
+                if (string.IsNullOrEmpty(PostalCode))
+                {
+                    return "Postal Code is Required";
+                }
+            }
+
+
             return string.Empty;
         }
     }
@@ -102,6 +146,86 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
         }
     }
 
+    private string _gender = string.Empty;
+    public string Gender
+    {
+        get
+        {
+            return _gender;
+        }
+        set
+        {
+            _gender = value;
+            OnPropertyChanged(nameof(Gender));
+        }
+    }
+    private string _PlaceOfBirth = string.Empty;
+    public string PlaceOfBirth
+    {
+        get
+        {
+            return _PlaceOfBirth;
+        }
+        set
+        {
+            _PlaceOfBirth = value;
+            OnPropertyChanged(nameof(PlaceOfBirth));
+        }
+    }
+    private string _PlaceOfResidence = string.Empty;
+    public string PlaceOfResidence
+    {
+        get
+        {
+            return _PlaceOfResidence;
+        }
+        set
+        {
+            _PlaceOfResidence = value;
+            OnPropertyChanged(nameof(PlaceOfResidence));
+        }
+    }
+    private string _AddressLine1 = string.Empty;
+    public string AddressLine1
+    {
+        get
+        {
+            return _AddressLine1;
+        }
+        set
+        {
+            _AddressLine1 = value;
+            OnPropertyChanged(nameof(AddressLine1));
+        }
+    }
+    private string _AddressLine2 = string.Empty;
+    public string AddressLine2
+    {
+        get
+        {
+            return _AddressLine2;
+        }
+        set
+        {
+            _AddressLine2 = value;
+            OnPropertyChanged(nameof(AddressLine2));
+        }
+    }
+    private string _PostalCode = string.Empty;
+    public string PostalCode
+    {
+        get
+        {
+            return _PostalCode;
+        }
+        set
+        {
+            _PostalCode = value;
+            OnPropertyChanged(nameof(PostalCode));
+        }
+    }
+
+
     private DateTime? _birthDate = null;
     public DateTime? BirthDate
     {
@@ -130,22 +254,22 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
         }
     }
 
-    private ObservableCollection<Subject>? _assignedSubjects = null;
-    public ObservableCollection<Subject>? AssignedSubjects
+    private ObservableCollection<Course>? _assignedCourses = null;
+    public ObservableCollection<Course>? AssignedCourses
     {
         get
         {
-            if (_assignedSubjects is null)
+            if (_assignedCourses is null)
             {
-                _assignedSubjects = LoadSubjects();
-                return _assignedSubjects;
+                _assignedCourses = LoadCourses();
+                return _assignedCourses;
             }
-            return _assignedSubjects;
+            return _assignedCourses;
         }
         set
         {
-            _assignedSubjects = value;
-            OnPropertyChanged(nameof(AssignedSubjects));
+            _assignedCourses = value;
+            OnPropertyChanged(nameof(AssignedCourses));
         }
     }
 
@@ -198,7 +322,13 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
             LastName = this.LastName,
             PESEL = this.PESEL,
             BirthDate = this.BirthDate,
-            Subjects = AssignedSubjects?.Where(s => s.IsSelected).ToList()
+            Gender = this.Gender,  // Set the new properties
+            PlaceOfBirth = this.PlaceOfBirth,
+            PlaceOfResidence = this.PlaceOfResidence,
+            AddressLine1 = this.AddressLine1,
+            AddressLine2 = this.AddressLine2,
+            PostalCode = this.PostalCode,
+            Courses = AssignedCourses?.Where(s => s.IsSelected).ToList()
         };
 
         _context.Students.Add(student);
@@ -213,16 +343,16 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
         _dialogService = dialogService;
     }
 
-    private ObservableCollection<Subject> LoadSubjects()
+    private ObservableCollection<Course> LoadCourses()
     {
         _context.Database.EnsureCreated();
-        _context.Subjects.Load();
-        return _context.Subjects.Local.ToObservableCollection();
+        _context.Courses.Load();
+        return _context.Courses.Local.ToObservableCollection();
     }
 
     private bool IsValid()
     {
-        string[] properties = { "Name", "LastName", "PESEL", "BirthDay"};
+        string[] properties = { "Name", "LastName", "PESEL", "BirthDay","Gender", "PlaceOfBirth", "PlaceOfResidence", "AddressLine1", "AddressLine2", "PostalCode" };
         foreach (string property in properties)
         {
             if (!string.IsNullOrEmpty(this[property]))

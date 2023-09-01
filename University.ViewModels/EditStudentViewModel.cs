@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Input;
 using University.Data;
 using University.Extensions;
@@ -57,6 +58,49 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
                     return "BirthDate is Required";
                 }
             }
+            if (columnName == "Gender")
+            {
+                if (string.IsNullOrEmpty(Gender))
+                {
+                    return "Gender is Required";
+                }
+            }
+            if (columnName == "PlaceOfBirth")
+            {
+                if (string.IsNullOrEmpty(PlaceOfBirth))
+                {
+                    return "Place of Birth is Required";
+                }
+            }
+            if (columnName == "PlaceOfResidence")
+            {
+                if (string.IsNullOrEmpty(PlaceOfResidence))
+                {
+                    return "Place of Residence is Required";
+                }
+            }
+            if (columnName == "AddressLine1")
+            {
+                if (string.IsNullOrEmpty(AddressLine1))
+                {
+                    return "Address Line 1 is Required";
+                }
+            }
+            if (columnName == "AddressLine2")
+            {
+                if (string.IsNullOrEmpty(AddressLine2))
+                {
+                    return "Address Line 2 is Required";
+                }
+            }
+            if (columnName == "PostalCode")
+            {
+                if (string.IsNullOrEmpty(PostalCode))
+                {
+                    return "Postal Code is Required";
+                }
+            }
+
             return string.Empty;
         }
     }
@@ -100,6 +144,89 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         {
             _pesel = value;
             OnPropertyChanged(nameof(PESEL));
+        }
+    }
+    private string _gender = string.Empty;
+    public string Gender
+    {
+        get
+        {
+            return _gender;
+        }
+        set
+        {
+            _gender = value;
+            OnPropertyChanged(nameof(Gender));
+        }
+    }
+
+    private string _placeOfBirth = string.Empty;
+    public string PlaceOfBirth
+    {
+        get
+        {
+            return _placeOfBirth;
+        }
+        set
+        {
+            _placeOfBirth = value;
+            OnPropertyChanged(nameof(PlaceOfBirth));
+        }
+    }
+
+    private string _placeOfResidence = string.Empty;
+    public string PlaceOfResidence
+    {
+        get
+        {
+            return _placeOfResidence;
+        }
+        set
+        {
+            _placeOfResidence = value;
+            OnPropertyChanged(nameof(PlaceOfResidence));
+        }
+    }
+
+    private string _addressLine1 = string.Empty;
+    public string AddressLine1
+    {
+        get
+        {
+            return _addressLine1;
+        }
+        set
+        {
+            _addressLine1 = value;
+            OnPropertyChanged(nameof(AddressLine1));
+        }
+    }
+
+    private string _addressLine2 = string.Empty;
+    public string AddressLine2
+    {
+        get
+        {
+            return _addressLine2;
+        }
+        set
+        {
+            _addressLine2 = value;
+            OnPropertyChanged(nameof(AddressLine2));
+        }
+    }
+
+    private string _postalCode = string.Empty;
+    public string PostalCode
+    {
+        get
+        {
+            return _postalCode;
+        }
+        set
+        {
+            _postalCode = value;
+            OnPropertyChanged(nameof(PostalCode));
         }
     }
 
@@ -146,22 +273,22 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         }
     }
 
-    private ObservableCollection<Subject>? _assignedSubjects = null;
-    public ObservableCollection<Subject> AssignedSubjects
+    private ObservableCollection<Course>? _assignedCourses = null;
+    public ObservableCollection<Course> AssignedCourses
     {
         get
         {
-            if (_assignedSubjects is null)
+            if (_assignedCourses is null)
             {
-                _assignedSubjects = LoadSubjects();
-                return _assignedSubjects;
+                _assignedCourses = LoadCourses();
+                return _assignedCourses;
             }
-            return _assignedSubjects;
+            return _assignedCourses;
         }
         set
         {
-            _assignedSubjects = value;
-            OnPropertyChanged(nameof(AssignedSubjects));
+            _assignedCourses = value;
+            OnPropertyChanged(nameof(AssignedCourses));
         }
     }
 
@@ -216,7 +343,13 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         _student.LastName = LastName;
         _student.PESEL = PESEL;
         _student.BirthDate = BirthDate;
-        _student.Subjects = AssignedSubjects.Where(s => s.IsSelected).ToList();
+        _student.Gender = Gender;
+        _student.PlaceOfBirth = PlaceOfBirth;
+        _student.PlaceOfResidence = PlaceOfResidence;
+        _student.AddressLine1 = AddressLine1;
+        _student.AddressLine2 = AddressLine2;
+        _student.PostalCode = PostalCode;
+        _student.Courses = AssignedCourses.Where(s => s.IsSelected).ToList();
 
         _context.Entry(_student).State = EntityState.Modified;
         _context.SaveChanges();
@@ -230,16 +363,16 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         _dialogService = dialogService;
     }
 
-    private ObservableCollection<Subject> LoadSubjects()
+    private ObservableCollection<Course> LoadCourses()
     {
         _context.Database.EnsureCreated();
-        _context.Subjects.Load();
-        return _context.Subjects.Local.ToObservableCollection();
+        _context.Courses.Load();
+        return _context.Courses.Local.ToObservableCollection();
     }
 
     private bool IsValid()
     {
-        string[] properties = { "Name", "LastName", "PESEL", "BirthDay" };
+        string[] properties = { "Name", "LastName", "PESEL", "BirthDay","Gender", "PlaceOfBirth", "PlaceOfResidence", "AddressLine1", "AddressLine2", "PostalCode" };
         foreach (string property in properties)
         {
             if (!string.IsNullOrEmpty(this[property]))
@@ -265,21 +398,28 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         this.LastName = _student.LastName;
         this.PESEL = _student.PESEL;
         this.BirthDate = _student.BirthDate;
-        if (_student.Subjects is null)
+        this.Gender = _student.Gender;
+        this.PlaceOfBirth = _student.PlaceOfBirth;
+        this.PlaceOfResidence = _student.PlaceOfResidence;
+        this.AddressLine1 = _student.AddressLine1;
+        this.AddressLine2 = _student.AddressLine2;
+        this.PostalCode = _student.PostalCode;
+        if (_student.Courses is null)
         {
             return;
         }
-        foreach (Subject subject in _student.Subjects)
+        foreach (Course course in _student.Courses)
         {
-            if (subject is not null && AssignedSubjects is not null)
+            if (course is not null && AssignedCourses is not null)
             {
-                var assignedSubject = AssignedSubjects
-                    .FirstOrDefault(s => s.SubjectId == subject.SubjectId);
-                if (assignedSubject is not null)
+                var assignedCourse = AssignedCourses
+                    .FirstOrDefault(s => s.CourseId == course.CourseId);
+                if (assignedCourse is not null)
                 { 
-                    assignedSubject.IsSelected = true;
+                    assignedCourse.IsSelected = true;
                 }
             }
         }
+        
     }
 }

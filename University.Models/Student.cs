@@ -17,6 +17,6 @@ namespace University.Models
         public string AddressLine1 { get; set; } = string.Empty;  // New property: Address Line 1
         public string AddressLine2 { get; set; } = string.Empty;  // New property: Address Line 2
         public string PostalCode { get; set; } = string.Empty;  // New property: Postal Code
-        public virtual ICollection<Subject>? Subjects { get; set; } = null;
+        public virtual ICollection<Course>? Courses { get; set; } = null;
     }
 }

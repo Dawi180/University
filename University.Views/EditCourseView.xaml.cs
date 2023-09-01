@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace University.Views
 {
-    public partial class SubjectsView : UserControl
+    public partial class EditCourseView : UserControl
     {
-        public SubjectsView()
+        public EditCourseView()
         {
             InitializeComponent();
         }
