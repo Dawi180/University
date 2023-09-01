@@ -83,17 +83,17 @@ namespace University.ViewModels
         private void EditFacultyMember(object? obj)
         {
             if (obj is not null)
-            {/*
-                long facultyMemberId = (long)obj;
+            {
+                long facultyId = (long)obj;
                 EditFacultyMemberViewModel editFacultyMemberViewModel = new EditFacultyMemberViewModel(_context, _dialogService)
                 {
-                    FacultyMemberId = facultyMemberId
+                    FacultyId = facultyId
                 };
                 var instance = MainWindowViewModel.Instance();
                 if (instance is not null)
                 {
                     instance.FacultyMembersSubView = editFacultyMemberViewModel;
-                }*/
+                }
             }
         }
 

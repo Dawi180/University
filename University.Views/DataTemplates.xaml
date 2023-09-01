@@ -29,5 +29,8 @@
     <DataTemplate DataType="{x:Type viewmodels:AddFacultyMemberViewModel}">
         <views:AddFacultyMemberView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:EditFacultyMemberViewModel}">
+        <views:EditFacultyMemberView />
+    </DataTemplate>
 
 </ResourceDictionary>

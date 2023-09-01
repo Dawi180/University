@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Input;
 using University.Data;
 using University.Extensions;
@@ -10,10 +11,11 @@ using University.Models;
 
 namespace University.ViewModels;
 
-public class AddFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
+public class EditFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
 {
     private readonly UniversityContext _context;
     private readonly IDialogService _dialogService;
+    private FacultyMember? _facultyMember = new FacultyMember();
 
     public string Error
     {
@@ -187,9 +189,24 @@ public class AddFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
         }
     }
 
+    private long _facultyId = 0;
+    public long FacultyId
+    {
+        get
+        {
+            return _facultyId;
+        }
+        set
+        {
+            _facultyId = value;
+            OnPropertyChanged(nameof(FacultyId));
+            LoadFacultyMemberData();
+        }
+    }
+
 
     private ICommand? _back = null;
-    public ICommand? Back
+    public ICommand Back
     {
         get
         {
@@ -211,7 +228,7 @@ public class AddFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
     }
 
     private ICommand? _save = null;
-    public ICommand? Save
+    public ICommand Save
     {
         get
         {
@@ -231,24 +248,25 @@ public class AddFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
             return;
         }
 
-        FacultyMember facultyMember = new FacultyMember
+        if (_facultyMember is null)
         {
-            Name = this.Name,
-            Age = this.Age,
-            Gender = this.Gender,
-            Department = this.Department,
-            Position = this.Position,
-            Email = this.Email,
-            OfficeRoomNumber = this.OfficeRoomNumber,
-        };
+            return;
+        }
+        _facultyMember.Name = Name;
+        _facultyMember.Age = Age;
+        _facultyMember.Gender = Gender;
+        _facultyMember.Department = Department;
+        _facultyMember.Position = Position;
+        _facultyMember.Email = Email;
+        _facultyMember.OfficeRoomNumber = OfficeRoomNumber;
 
-        _context.FacultyMembers.Add(facultyMember);
+        _context.Entry(_facultyMember).State = EntityState.Modified;
         _context.SaveChanges();
 
-        Response = "Data Saved";
+        Response = "Data Updated";
     }
 
-    public AddFacultyMemberViewModel(UniversityContext context, IDialogService dialogService)
+    public EditFacultyMemberViewModel(UniversityContext context, IDialogService dialogService)
     {
         _context = context;
         _dialogService = dialogService;
@@ -265,5 +283,26 @@ public class AddFacultyMemberViewModel : ViewModelBase, IDataErrorInfo
             }
         }
         return true;
+    }
+
+    private void LoadFacultyMemberData()
+    {
+        if (_context?.FacultyMembers is null)
+        {
+            return;
+        }
+        _facultyMember = _context.FacultyMembers.Find(FacultyId);
+        if (_facultyMember is null)
+        {
+            return;
+        }
+        this.Name = _facultyMember.Name;
+        this.Age = _facultyMember.Age;
+        this.Gender = _facultyMember.Gender;
+        this.Department = _facultyMember.Department;
+        this.Position = _facultyMember.Position;
+        this.Email = _facultyMember.Email;
+        this.OfficeRoomNumber = _facultyMember.OfficeRoomNumber;
+
     }
 }
