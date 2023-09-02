@@ -35,5 +35,11 @@
     <DataTemplate DataType="{x:Type viewmodels:ExamsViewModel}">
         <views:ExamsView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:AddExamViewModel}">
+        <views:AddExamView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:EditExamViewModel}">
+        <views:EditExamView />
+    </DataTemplate>
 
 </ResourceDictionary>

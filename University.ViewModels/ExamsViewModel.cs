@@ -52,21 +52,21 @@ namespace University.ViewModels
             {
                 if (_add is null)
                 {
-                   // _add = new RelayCommand<object>(AddNewFacultyMember);
+                    _add = new RelayCommand<object>(AddNewExam);
                 }
                 return _add;
             }
         }
-        /*
-        private void AddNewFacultyMember(object? obj)
+        
+        private void AddNewExam(object? obj)
         {
             var instance = MainWindowViewModel.Instance();
             if (instance is not null)
             {
-                instance.FacultyMembersSubView = new AddFacultyMemberViewModel(_context, _dialogService);
+                instance.ExamsSubView = new AddExamViewModel(_context, _dialogService);
             }
         }
-        */
+        
         
         private ICommand? _edit = null;
         public ICommand? Edit
@@ -75,29 +75,29 @@ namespace University.ViewModels
             {
                 if (_edit is null)
                 {
-                  //  _edit = new RelayCommand<object>(EditFacultyMember);
+                    _edit = new RelayCommand<object>(EditExam);
                 }
                 return _edit;
             }
         }
-        /*
-        private void EditFacultyMember(object? obj)
+        
+        private void EditExam(object? obj)
         {
             if (obj is not null)
             {
-                long facultyId = (long)obj;
-                EditFacultyMemberViewModel editFacultyMemberViewModel = new EditFacultyMemberViewModel(_context, _dialogService)
+                long examId = (long)obj;
+                EditExamViewModel editExamViewModel = new EditExamViewModel(_context, _dialogService)
                 {
-                    FacultyId = facultyId
+                    ExamId = examId
                 };
                 var instance = MainWindowViewModel.Instance();
                 if (instance is not null)
                 {
-                    instance.FacultyMembersSubView = editFacultyMemberViewModel;
+                    instance.ExamsSubView = editExamViewModel;
                 }
             }
         }
-        */
+        
 
         private ICommand? _remove = null;
         public ICommand? Remove
