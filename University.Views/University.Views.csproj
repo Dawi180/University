@@ -25,10 +25,16 @@
     <Compile Update="AddCourseView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AddFacultyMemberView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="EditStudentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="EditCourseView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EditFacultyMemberView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="SearchView.xaml.cs">
@@ -41,6 +47,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="FacultyMemberView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ExamsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

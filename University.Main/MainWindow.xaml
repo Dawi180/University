@@ -28,6 +28,9 @@
             <TabItem Header="Faculty Member">
                 <ContentControl Content="{Binding FacultyMembersSubView}" />
             </TabItem>
+            <TabItem Header="Exam">
+                <ContentControl Content="{Binding ExamsSubView}" />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

@@ -78,6 +78,19 @@ public class MainWindowViewModel : ViewModelBase
             OnPropertyChanged(nameof(FacultyMembersSubView));
         }
     }
+    private object? _examsSubView = null;
+    public object? ExamsSubView
+    {
+        get
+        {
+            return _examsSubView;
+        }
+        set
+        {
+            _examsSubView = value;
+            OnPropertyChanged(nameof(ExamsSubView));
+        }
+    }
 
     private static MainWindowViewModel? _instance = null;
     public static MainWindowViewModel? Instance()
@@ -99,5 +112,6 @@ public class MainWindowViewModel : ViewModelBase
         CoursesSubView = new CoursesViewModel(_context, _dialogService);
         SearchSubView = new SearchViewModel(_context, _dialogService);
         FacultyMembersSubView = new FacultyMembersViewModel(_context, _dialogService);
+        ExamsSubView = new ExamsViewModel(_context, _dialogService);
     }
 }
