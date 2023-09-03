@@ -18,5 +18,6 @@ namespace University.Models
         public virtual ICollection<StudentOrganization>? Membership { get; set; } = null;
         public virtual ICollection<Student>? Students { get; set; } = null;
         public string Email { get; set; } = string.Empty;
+        public virtual ICollection<StudentOrganizationStudent>? StudentOrganizationStudents { get; set; }
     }
 }
