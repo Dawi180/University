@@ -16,6 +16,7 @@ namespace University.Models
         public bool IsSelected { get; set; } = false;
         public virtual ICollection<Student>? Students { get; set; } = null;
         public virtual ICollection<Course>? Prerequisite { get; set; } = null;
+        public virtual ICollection<CourseExam> CourseExams { get; set; } = new List<CourseExam>();
 
     }
 }

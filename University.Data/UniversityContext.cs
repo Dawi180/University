@@ -68,6 +68,21 @@ namespace University.Data
                 .HasOne<Student>(sos => sos.Student) 
                 .WithMany(s => s!.StudentOrganizationStudents)
                 .HasForeignKey(sos => sos.StudentId);
+
+            //CourseExam
+            modelBuilder.Entity<CourseExam>()
+        .HasKey(ce => ce.CourseExamId);
+
+            modelBuilder.Entity<CourseExam>()
+                .HasOne(ce => ce.Exam)
+                .WithMany(e => e.CourseExams)
+                .HasForeignKey(ce => ce.ExamId);
+
+            modelBuilder.Entity<CourseExam>()
+                .HasOne(ce => ce.Course)
+                .WithMany(c => c.CourseExams)
+                .HasForeignKey(ce => ce.CourseId);
+
         }
         
     }

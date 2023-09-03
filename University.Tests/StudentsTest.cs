@@ -41,8 +41,7 @@ public class StudentsTest
             };
             List<Course> courses = new List<Course>
             {
-                new Course { },
-                new Course { },
+               
                 new Course { CourseId = 5, CourseCode = "kod kursu", Title = "tytu³ kursu", Instructor = "prowadz¹cy kurs", Schedule = "harmonogram kursu", Description = "opis kursu", Credits = 10, Department = "wydzia³, do którego przynale¿y kurs" }
 
             };

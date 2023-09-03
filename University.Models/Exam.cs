@@ -13,5 +13,6 @@ namespace University.Models
         public string Location { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Professor { get; set; } = string.Empty;
+        public virtual ICollection<CourseExam> CourseExams { get; set; } = new List<CourseExam>();
     }
 }
