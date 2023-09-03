@@ -31,6 +31,9 @@
             <TabItem Header="Exam">
                 <ContentControl Content="{Binding ExamsSubView}" />
             </TabItem>
+            <TabItem Header="Student Organization">
+                <ContentControl Content="{Binding StudentOrganizationsSubView}" />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

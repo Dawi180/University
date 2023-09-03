@@ -52,6 +52,15 @@
     <Compile Update="ExamsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="StudentOrganizationsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AddStudentOrganizationView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EditStudentOrganizationView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 

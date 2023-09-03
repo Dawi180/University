@@ -17,6 +17,7 @@ namespace University.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<FacultyMember> FacultyMembers { get; set; }
         public DbSet<Exam> Exams { get; set; }
+        public DbSet<StudentOrganization> StudentOrganizations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,7 +48,11 @@ namespace University.Data
             modelBuilder.Entity<FacultyMember>().HasKey(fm => fm.FacultyId);
             modelBuilder.Entity<Exam>().HasData(
                 new Exam { ExamId = 1,  CourseCode = "kod kursu", Date = new DateTime(2021, 06, 08, 10, 0, 0), StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(12, 0, 0), Location = "miejsce", Description = "opis", Professor = "profesor"}
-                );
+            );
+            modelBuilder.Entity<StudentOrganization>().HasData(
+                new StudentOrganization { OrgId = 1, Name = "NazwaOrganizacji", Advisor = "Doradca", President = "Prezes", Description = "Opis organizacji", MeetingSchedule = "Harmonogram spotkań", Email = "Email"}
+            );
+            modelBuilder.Entity<StudentOrganization>().HasKey(fm => fm.OrgId);
         }
     }
 }

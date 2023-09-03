@@ -41,5 +41,14 @@
     <DataTemplate DataType="{x:Type viewmodels:EditExamViewModel}">
         <views:EditExamView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:StudentOrganizationsViewModel}">
+        <views:StudentOrganizationsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:AddStudentOrganizationViewModel}">
+        <views:AddStudentOrganizationView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:EditStudentOrganizationViewModel}">
+        <views:EditStudentOrganizationView />
+    </DataTemplate>
 
 </ResourceDictionary>
