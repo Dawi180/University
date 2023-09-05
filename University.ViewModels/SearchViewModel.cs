@@ -95,6 +95,19 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(AreCoursesVisible));
         }
     }
+    private bool _areOrganizationsVisible;
+    public bool AreOrganizationsVisible
+    {
+        get
+        {
+            return _areOrganizationsVisible;
+        }
+        set
+        {
+            _areOrganizationsVisible = value;
+            OnPropertyChanged(nameof(AreOrganizationsVisible));
+        }
+    }
 
     private ObservableCollection<Student>? _students = null;
     public ObservableCollection<Student>? Students
@@ -133,6 +146,24 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(Courses));
         }
     }
+    private ObservableCollection<StudentOrganization>? _studentOrganizations = null;
+    public ObservableCollection<StudentOrganization>? StudentOrganizations
+    {
+        get
+        {
+            if (_studentOrganizations is null)
+            {
+                _studentOrganizations = new ObservableCollection<StudentOrganization>();
+                return _studentOrganizations;
+            }
+            return _studentOrganizations;
+        }
+        set
+        {
+            _studentOrganizations = value;
+            OnPropertyChanged(nameof(StudentOrganizations));
+        }
+    }
 
     private ICommand? _comboBoxSelectionChanged = null;
     public ICommand? ComboBoxSelectionChanged
@@ -161,6 +192,10 @@ public class SearchViewModel : ViewModelBase
             else if (selectedValue == "Courses")
             {
                 FirstCondition = "attended by Student with PESEL";
+            }
+            else if (selectedValue == "Organizations")
+            {
+                FirstCondition = "with Student by PESEL:";
             }
         }
     }
@@ -221,6 +256,27 @@ public class SearchViewModel : ViewModelBase
                 AreCoursesVisible = true;
             }
         }
+        else if (FirstCondition == "with Student by PESEL:")
+        {
+            _context.Database.EnsureCreated();
+            Student? student = _context.Students
+                .Where(s => s.PESEL == SecondCondition)
+                .FirstOrDefault();
+            if (student is not null)
+            {
+                var studentOrganizations = _context.StudentOrganizations
+                    .Include(s => s.Students)
+                    .ToList();
+
+                var filteredOrganizations = studentOrganizations
+                    .Where(s => s.Students != null && s.Students.Any(sub => sub.PESEL == SecondCondition))
+                    .ToList();
+
+                StudentOrganizations = new ObservableCollection<StudentOrganization>(filteredOrganizations);
+                AreStudentsVisible = false;
+                AreOrganizationsVisible = true;
+            }
+        }
     }
 
     private ICommand? _edit = null;
@@ -265,6 +321,20 @@ public class SearchViewModel : ViewModelBase
                 if (instance is not null)
                 {
                     instance.CoursesSubView = editCourseViewModel;
+                    instance.SelectedTab = 1;
+                }
+            }
+            else if (FirstCondition == "with Student by PESEL:")
+            {
+                long orgId = (long)obj;
+                EditStudentOrganizationViewModel editStudentOrganizationViewModel = new EditStudentOrganizationViewModel(_context, _dialogService)
+                {
+                    OrgId = orgId
+                };
+                var instance = MainWindowViewModel.Instance();
+                if (instance is not null)
+                {
+                    instance.StudentOrganizationsSubView = editStudentOrganizationViewModel;
                     instance.SelectedTab = 1;
                 }
             }
@@ -321,6 +391,22 @@ public class SearchViewModel : ViewModelBase
                 _context.Courses.Remove(course);
                 _context.SaveChanges();
             }
+            else if (FirstCondition == "with Student by PESEL:")
+            {
+                long orgId = (long)obj;
+                StudentOrganization? studentOrganization = _context.StudentOrganizations.Find(orgId);
+                if (studentOrganization is null)
+                {
+                    return;
+                }
+                DialogResult = _dialogService.Show(studentOrganization.Name);
+                if (DialogResult == false)
+                {
+                    return;
+                }
+                _context.StudentOrganizations.Remove(studentOrganization);
+                _context.SaveChanges();
+            }
         }
     }
 
@@ -332,5 +418,6 @@ public class SearchViewModel : ViewModelBase
         IsVisible = false;
         AreStudentsVisible = false;
         AreCoursesVisible = false;
+        AreOrganizationsVisible = false;
     }
 }
