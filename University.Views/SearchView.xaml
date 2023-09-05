@@ -68,17 +68,59 @@
                     <GridViewColumn Header="Courses" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Expander Header="View" Padding="2">
+                                <Expander Header="View"  Padding="2">
                                     <ItemsControl ItemsSource="{Binding Courses}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Margin="0,0,0,5">
-                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock Text="{Binding Title}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                 </Expander>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Gender}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Place of Birth" DisplayMemberBinding="{Binding PlaceOfBirth}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PlaceOfBirth}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Place of Residence" DisplayMemberBinding="{Binding PlaceOfResidence}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PlaceOfResidence}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Address Line 1" DisplayMemberBinding="{Binding AddressLine1}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AddressLine1}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Address Line 2" DisplayMemberBinding="{Binding AddressLine2}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AddressLine2}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Postal Code" DisplayMemberBinding="{Binding PostalCode}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PostalCode}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -102,24 +144,76 @@
         <ListView Visibility="{Binding Path=AreCoursesVisible, Converter={StaticResource BoolToVis}}" Grid.Row="1" ItemsSource="{Binding Courses}" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewPrimaryItem}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}">
+                    <GridViewColumn Header="Course Code" DisplayMemberBinding="{Binding CourseCode}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding CourseCode}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Semester" DisplayMemberBinding="{Binding Semester}">
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Semester}" />
+                                <TextBlock Text="{Binding Title}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Lecturer" DisplayMemberBinding="{Binding Lecturer}">
+                    <GridViewColumn Header="Instructor" DisplayMemberBinding="{Binding Instructor}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Lecturer}" />
+                                <TextBlock Text="{Binding Instructor}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Schedule" DisplayMemberBinding="{Binding Schedule}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Schedule}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Credits" DisplayMemberBinding="{Binding Credits}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Credits}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Department}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Prerequisites" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Expander Header="View" Padding="2">
+                                    <ItemsControl ItemsSource="{Binding Prerequisite}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,0,5">
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat=" {0} {1} ">
+                                                                <Binding Path="CourseCode"/>
+                                                                <Binding Path="Title"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Expander>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
