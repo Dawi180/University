@@ -4,32 +4,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using University.Controls;
 using Newtonsoft.Json;
 using University.Interfaces;
 
 namespace University.Services
 {
-    
-    public class DataAccessService<T> : IDataAccessService<T>
+    public class DataAccessService : IDataAccessService
     {
-        public void SaveData(T data, string filePath)
+        private readonly IFileWrapper fileWrapper;
+
+        public DataAccessService(IFileWrapper fileWrapper)
         {
-            string jsonData = JsonConvert.SerializeObject(data);
-            File.WriteAllText(filePath, jsonData);
+            this.fileWrapper = fileWrapper;
         }
 
-        public T ReadData(string filePath)
+        public void SaveData<T>(string filePath, T data)
         {
-            if (File.Exists(filePath))
+            try
             {
-                string jsonData = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<T>(jsonData);
+                string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
+                fileWrapper.WriteAllText(filePath, jsonData);
             }
-            else
+            catch (Exception ex)
             {
-                throw new FileNotFoundException("File not found", filePath);
+                // Handle exceptions here, e.g., log or throw.
+                Console.WriteLine($"Error saving data to {filePath}: {ex.Message}");
+            }
+        }
+
+        public T LoadData<T>(string filePath)
+        {
+            try
+            {
+                if (fileWrapper.Exists(filePath))
+                {
+                    string jsonData = fileWrapper.ReadAllText(filePath);
+                    return JsonConvert.DeserializeObject<T>(jsonData);
+                }
+                else
+                {
+                    // Handle file not found scenario.
+                    Console.WriteLine($"File not found: {filePath}");
+                    return default(T); // Return default value for the type.
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions here, e.g., log or throw.
+                Console.WriteLine($"Error loading data from {filePath}: {ex.Message}");
+                return default(T); // Return default value for the type.
             }
         }
     }
+
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace University.Models
 {
-    public class Student
+    public class Student 
     {
         public long StudentId { get; set; } = 0;
         public string Name { get; set; } = string.Empty;

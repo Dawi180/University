@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace University.Interfaces
 {
-    public interface IDataAccessService
+    public interface IFileWrapper
     {
-        void SaveData<T>(string filePath, T data);
-        T LoadData<T>(string filePath);
+        void WriteAllText(string path, string contents);
+        bool Exists(string path);
+        string ReadAllText(string path);
     }
 }
