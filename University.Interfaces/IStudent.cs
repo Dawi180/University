@@ -13,11 +13,14 @@ namespace University.Interfaces
         string LastName { get; set; }
         string PESEL { get; set; }
         DateTime? BirthDate { get; set; }
-        string Gender { get; set; }  // New property: Gender
-        string PlaceOfBirth { get; set; }  // New property: Place of Birth
-        string PlaceOfResidence { get; set; }  // New property: Place of Residence
-        string AddressLine1 { get; set; }  // New property: Address Line 1
-        string AddressLine2 { get; set; }  // New property: Address Line 2
-        string PostalCode { get; set; }  // New property: Postal Code
+        string Gender { get; set; }
+        string PlaceOfBirth { get; set; }
+        string PlaceOfResidence { get; set; }
+        string AddressLine1 { get; set; }
+        string AddressLine2 { get; set; }
+        string PostalCode { get; set; }
+        //ICollection<ICourse>? Courses { get; set; }
+        //ICollection<IStudentOrganization>? StudentOrganizations { get; set; } 
+        //ICollection<IStudentOrganizationStudent>? StudentOrganizationStudents { get; set; }
     }
 }
