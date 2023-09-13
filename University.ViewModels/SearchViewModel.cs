@@ -12,6 +12,7 @@ public class SearchViewModel : ViewModelBase
 {
     private readonly UniversityContext _context;
     private readonly IDialogService _dialogService;
+    private readonly IDataAccessService _dataAccessService;
 
     private bool? _dialogResult = null;
     public bool? DialogResult

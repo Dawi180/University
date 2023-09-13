@@ -13,6 +13,7 @@ namespace University.ViewModels;
 public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
 {
     private readonly UniversityContext _context;
+    private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
 
     public string Error
@@ -291,7 +292,7 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
         var instance = MainWindowViewModel.Instance();
         if (instance is not null)
         {
-            instance.StudentsSubView = new StudentsViewModel(_context, _dialogService);
+            instance.StudentsSubView = new StudentsViewModel(_dataAccessService, _dialogService);
         }
     }
 
@@ -341,6 +342,7 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
     {
         _context = context;
         _dialogService = dialogService;
+
     }
 
     private ObservableCollection<Course> LoadCourses()

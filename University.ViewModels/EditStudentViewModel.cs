@@ -14,6 +14,7 @@ namespace University.ViewModels;
 public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
 {
     private readonly UniversityContext _context;
+    private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
     private Student? _student = new Student();
 
@@ -310,7 +311,7 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         var instance = MainWindowViewModel.Instance();
         if (instance is not null)
         {
-            instance.StudentsSubView = new StudentsViewModel(_context, _dialogService);
+            instance.StudentsSubView = new StudentsViewModel(_dataAccessService, _dialogService);
         }
     }
 
@@ -360,7 +361,8 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
     public EditStudentViewModel(UniversityContext context, IDialogService dialogService)
     {
         _context = context;
-        _dialogService = dialogService;
+       _dialogService = dialogService;
+
     }
 
     private ObservableCollection<Course> LoadCourses()
