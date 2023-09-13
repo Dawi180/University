@@ -13,6 +13,7 @@ public class SearchViewModel : ViewModelBase
     private readonly UniversityContext _context;
     private readonly IDialogService _dialogService;
     private readonly IDataAccessService _dataAccessService;
+    private readonly IValidationService _validationService;
 
     private bool? _dialogResult = null;
     public bool? DialogResult
@@ -300,7 +301,7 @@ public class SearchViewModel : ViewModelBase
             if (FirstCondition == "who attends")
             {
                 long studentId = (long)obj;
-                EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_context, _dialogService)
+                EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_dataAccessService, _dialogService, _validationService)
                 {
                     StudentId = studentId
                 };

@@ -1,0 +1,33 @@
+{
+  "StudentId": 1,
+  "Name": "John",
+  "LastName": "Doe",
+  "PESEL": "12345678901",
+  "BirthDate": "1995-05-15",
+  "Gender": "Male",
+  "PlaceOfBirth": "New York",
+  "PlaceOfResidence": "Los Angeles",
+  "AddressLine1": "123 Main Street",
+  "AddressLine2": "Apt 4B",
+  "PostalCode": "12345",
+  "Courses": [
+    {
+      "CourseId": 101,
+      "CourseName": "Mathematics",
+      "CourseCode": "MATH101",
+      "IsSelected": true
+    },
+    {
+      "CourseId": 102,
+      "CourseName": "History",
+      "CourseCode": "HIST101",
+      "IsSelected": false
+    }
+  ]
+}
+
+
+
+
+
+

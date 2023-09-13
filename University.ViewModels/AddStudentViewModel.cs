@@ -12,7 +12,6 @@ namespace University.ViewModels;
 
 public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
 {
-    private readonly UniversityContext _context;
     private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
 
@@ -332,24 +331,28 @@ public class AddStudentViewModel : ViewModelBase, IDataErrorInfo
             Courses = AssignedCourses?.Where(s => s.IsSelected).ToList()
         };
 
-        _context.Students.Add(student);
-        _context.SaveChanges();
+        _dataAccessService.SaveData("Data.json", student);
 
         Response = "Data Saved";
     }
 
-    public AddStudentViewModel(UniversityContext context, IDialogService dialogService)
+    public AddStudentViewModel(IDataAccessService dataAccessService, IDialogService dialogService)
     {
-        _context = context;
+        _dataAccessService = dataAccessService;
         _dialogService = dialogService;
 
     }
 
     private ObservableCollection<Course> LoadCourses()
     {
-        _context.Database.EnsureCreated();
-        _context.Courses.Load();
-        return _context.Courses.Local.ToObservableCollection();
+        var courses = _dataAccessService.LoadData<List<Course>>("coursesData.json");
+
+        if (courses == null)
+        {
+            courses = new List<Course>();
+        }
+
+        return new ObservableCollection<Course>(courses);
     }
 
     private bool IsValid()

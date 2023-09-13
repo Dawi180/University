@@ -11,9 +11,9 @@ namespace University.ViewModels;
 
 public class StudentsViewModel : ViewModelBase
 {
-    private readonly UniversityContext _context;
     private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
+    private readonly IValidationService _validationService;
 
     private bool? _dialogResult = null;
     public bool? DialogResult
@@ -60,12 +60,12 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void AddNewStudent(object? obj)
+    public void AddNewStudent(object? obj)
     {
         var instance = MainWindowViewModel.Instance();
         if (instance is not null)
         {
-            instance.StudentsSubView = new AddStudentViewModel(_context, _dialogService);
+            instance.StudentsSubView = new AddStudentViewModel(_dataAccessService, _dialogService);
 
         }
     }
@@ -83,12 +83,12 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void EditStudent(object? obj)
+    public void EditStudent(object? obj)
     {
         if (obj is not null)
         {
             long studentId = (long)obj;
-            EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_context, _dialogService)
+            EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_dataAccessService, _dialogService, _validationService)
             {
                 StudentId = studentId
             };
@@ -113,7 +113,7 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void RemoveStudent(object? obj)
+    public void RemoveStudent(object? obj)
     {
         if (obj is not null)
         {
@@ -128,7 +128,7 @@ public class StudentsViewModel : ViewModelBase
                 }
 
                 _students.Remove(student);
-                _dataAccessService.SaveData("University/Data.json", _students); // Zapisz zmiany za pomocą IDataAccessService
+                _dataAccessService.SaveData("Data.json", _students); // Zapisz zmiany za pomocą IDataAccessService
             }
         }
     }
@@ -139,6 +139,6 @@ public class StudentsViewModel : ViewModelBase
         _dialogService = dialogService;
 
         // _context.Database.EnsureCreated(); // Niepotrzebne, bo korzystamy z IDataAccessService
-        _students = _dataAccessService.LoadData<ObservableCollection<IStudent>>("University/Data.json") ?? new ObservableCollection<IStudent>();
+        _students = _dataAccessService.LoadData<ObservableCollection<IStudent>>("\\University\\Data.json") ?? new ObservableCollection<IStudent>();
     }
 }
