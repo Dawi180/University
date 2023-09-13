@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using University.Interfaces;
 
 namespace University.Models
 {
-    public class CourseExam
+    public class CourseExam : ICourseExam
     {
         public long CourseExamId { get; set; }
 

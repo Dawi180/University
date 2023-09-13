@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.Runtime.Intrinsics.X86;
 using System.Windows.Input;
 using University.Data;
 using University.Interfaces;

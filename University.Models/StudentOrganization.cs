@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using University.Interfaces;
 
 namespace University.Models
 {
    
-    public class StudentOrganization
+    public class StudentOrganization : IStudentOrganization
     {
         public long OrgId { get; set; } = 0;
         public string Name { get; set; } = string.Empty;

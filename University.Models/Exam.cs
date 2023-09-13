@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using University.Interfaces;
 
 namespace University.Models
 {
-    public class Exam
+    public class Exam : IExam
     {
         public long ExamId { get; set; } = 0;
         public string CourseCode { get; set; } = string.Empty;

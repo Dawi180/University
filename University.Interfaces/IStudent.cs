@@ -19,7 +19,7 @@ namespace University.Interfaces
         string AddressLine1 { get; set; }
         string AddressLine2 { get; set; }
         string PostalCode { get; set; }
-        //ICollection<ICourse>? Courses { get; set; }
+       //ICollection<ICourse>? Courses { get; set; }
         //ICollection<IStudentOrganization>? StudentOrganizations { get; set; } 
         //ICollection<IStudentOrganizationStudent>? StudentOrganizationStudents { get; set; }
     }
