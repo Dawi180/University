@@ -24,11 +24,13 @@ namespace University.Services
             {
                 string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
                 fileWrapper.WriteAllText(filePath, jsonData);
+                Console.WriteLine($"Data saved to {filePath}");
             }
             catch (Exception ex)
             {
                 // Handle exceptions here, e.g., log or throw.
                 Console.WriteLine($"Error saving data to {filePath}: {ex.Message}");
+                throw;
             }
         }
 
@@ -39,7 +41,9 @@ namespace University.Services
                 if (fileWrapper.Exists(filePath))
                 {
                     string jsonData = fileWrapper.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<T>(jsonData);
+                    T result = JsonConvert.DeserializeObject<T>(jsonData);
+                    Console.WriteLine($"Data loaded from {filePath}");
+                    return result;
                 }
                 else
                 {
@@ -53,6 +57,7 @@ namespace University.Services
                 // Handle exceptions here, e.g., log or throw.
                 Console.WriteLine($"Error loading data from {filePath}: {ex.Message}");
                 return default(T); // Return default value for the type.
+                throw;
             }
         }
     }

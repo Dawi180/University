@@ -18,6 +18,7 @@ namespace University.Main
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
@@ -35,6 +36,8 @@ namespace University.Main
                 options.UseLazyLoadingProxies();
             });
             serviceCollection.AddSingleton<IDialogService, DialogService>();
+            serviceCollection.AddSingleton<IDataAccessService, DataAccessService>();
+            serviceCollection.AddSingleton<IFileWrapper, FileWrapper>();
             serviceCollection.AddSingleton<MainWindowViewModel>();
             serviceCollection.AddSingleton<MainWindow>();
         }

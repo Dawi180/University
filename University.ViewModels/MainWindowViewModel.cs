@@ -9,6 +9,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private readonly UniversityContext _context;
     private readonly IDialogService _dialogService;
+    private readonly IDataAccessService _dataAccessService;
 
     private int _selectedTab;
     public int SelectedTab
@@ -112,21 +113,22 @@ public class MainWindowViewModel : ViewModelBase
         return _instance;
     }
 
-    public MainWindowViewModel(UniversityContext context, IDialogService dialogService)
+    public MainWindowViewModel(UniversityContext context, IDialogService dialogService, IDataAccessService dataAccessService)
     {
         _context = context;
         _dialogService = dialogService;
-
+        _dataAccessService = dataAccessService;
         if (_instance is null)
         {
             _instance = this;
         }
 
-        StudentsSubView = new StudentsViewModel(_context, _dialogService);
+        StudentsSubView = new StudentsViewModel(_dataAccessService, _dialogService);
         CoursesSubView = new CoursesViewModel(_context, _dialogService);
         SearchSubView = new SearchViewModel(_context, _dialogService);
         FacultyMembersSubView = new FacultyMembersViewModel(_context, _dialogService);
         ExamsSubView = new ExamsViewModel(_context, _dialogService);
         StudentOrganizationsSubView = new StudentOrganizationsViewModel(_context, _dialogService);
+        _dataAccessService = dataAccessService;
     }
 }

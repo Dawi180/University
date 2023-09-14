@@ -13,8 +13,9 @@ namespace University.ViewModels;
 
 public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
 {
-    private readonly UniversityContext _context;
+    private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
+    private readonly IValidationService _validationService;
     private Student? _student = new Student();
 
     public string Error
@@ -46,7 +47,7 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
                 {
                     return "PESEL is Required";
                 }
-                if (!PESEL.IsValidPESEL())
+                if (!_validationService.IsValidPESEL(PESEL))
                 {
                     return "PESEL is Invalid";
                 }
@@ -56,6 +57,10 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
                 if (BirthDate is null)
                 {
                     return "BirthDate is Required";
+                }
+                if (!_validationService.IsValidDateOfBirth(BirthDate))
+                {
+                    return "BirthDate is Invalid";
                 }
             }
             if (columnName == "Gender")
@@ -310,7 +315,7 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         var instance = MainWindowViewModel.Instance();
         if (instance is not null)
         {
-            instance.StudentsSubView = new StudentsViewModel(_context, _dialogService);
+            instance.StudentsSubView = new StudentsViewModel(_dataAccessService, _dialogService);
         }
     }
 
@@ -351,23 +356,29 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
         _student.PostalCode = PostalCode;
         _student.Courses = AssignedCourses.Where(s => s.IsSelected).ToList();
 
-        _context.Entry(_student).State = EntityState.Modified;
-        _context.SaveChanges();
+        _dataAccessService.SaveData("Data.json", _student);
 
         Response = "Data Updated";
     }
 
-    public EditStudentViewModel(UniversityContext context, IDialogService dialogService)
+    public EditStudentViewModel(IDataAccessService dataAccessService, IDialogService dialogService, IValidationService validationService)
     {
-        _context = context;
+        _dataAccessService = dataAccessService;
         _dialogService = dialogService;
+        _validationService = validationService;
+
     }
 
     private ObservableCollection<Course> LoadCourses()
     {
-        _context.Database.EnsureCreated();
-        _context.Courses.Load();
-        return _context.Courses.Local.ToObservableCollection();
+        var courses = _dataAccessService.LoadData<List<Course>>("coursesData.json");
+
+        if (courses == null)
+        {
+            courses = new List<Course>();
+        }
+
+        return new ObservableCollection<Course>(courses);
     }
 
     private bool IsValid()
@@ -385,11 +396,11 @@ public class EditStudentViewModel : ViewModelBase, IDataErrorInfo
 
     private void LoadStudentData()
     {
-        if (_context?.Students is null)
+        if (_dataAccessService is null)
         {
             return;
         }
-        _student = _context.Students.Find(StudentId);
+        _student = _dataAccessService.LoadData<Student>("Data.json");
         if (_student is null)
         {
             return;

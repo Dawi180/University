@@ -11,8 +11,9 @@ namespace University.ViewModels;
 
 public class StudentsViewModel : ViewModelBase
 {
-    private readonly UniversityContext _context;
+    private readonly IDataAccessService _dataAccessService;
     private readonly IDialogService _dialogService;
+    private readonly IValidationService _validationService;
 
     private bool? _dialogResult = null;
     public bool? DialogResult
@@ -27,14 +28,14 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private ObservableCollection<Student>? _students = null;
-    public ObservableCollection<Student>? Students
+    private ObservableCollection<IStudent>? _students = null;
+    public ObservableCollection<IStudent>? Students
     {
         get
         {
             if (_students is null)
             {
-                _students = new ObservableCollection<Student>();
+                _students = new ObservableCollection<IStudent>();
                 return _students;
             }
             return _students;
@@ -59,12 +60,12 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void AddNewStudent(object? obj)
+    public void AddNewStudent(object? obj)
     {
         var instance = MainWindowViewModel.Instance();
         if (instance is not null)
         {
-            instance.StudentsSubView = new AddStudentViewModel(_context, _dialogService);
+            instance.StudentsSubView = new AddStudentViewModel(_dataAccessService, _dialogService);
 
         }
     }
@@ -82,12 +83,12 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void EditStudent(object? obj)
+    public void EditStudent(object? obj)
     {
         if (obj is not null)
         {
             long studentId = (long)obj;
-            EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_context, _dialogService)
+            EditStudentViewModel editStudentViewModel = new EditStudentViewModel(_dataAccessService, _dialogService, _validationService)
             {
                 StudentId = studentId
             };
@@ -112,12 +113,12 @@ public class StudentsViewModel : ViewModelBase
         }
     }
 
-    private void RemoveStudent(object? obj)
+    public void RemoveStudent(object? obj)
     {
         if (obj is not null)
         {
             long studentId = (long)obj;
-            Student? student = _context.Students.Find(studentId);
+            IStudent? student = _students.FirstOrDefault(s => s.StudentId == studentId);
             if (student is not null)
             {
                 DialogResult = _dialogService.Show(student.Name + " " + student.LastName);
@@ -126,19 +127,18 @@ public class StudentsViewModel : ViewModelBase
                     return;
                 }
 
-                _context.Students.Remove(student);
-                _context.SaveChanges();
+                _students.Remove(student);
+                _dataAccessService.SaveData("Data.json", _students); // Zapisz zmiany za pomocą IDataAccessService
             }
         }
     }
 
-    public StudentsViewModel(UniversityContext context, IDialogService dialogService)
+    public StudentsViewModel(IDataAccessService dataAccessService, IDialogService dialogService)
     {
-        _context = context;
+        _dataAccessService = dataAccessService; // Wstrzyknięcie IDataAccessService
         _dialogService = dialogService;
 
-        _context.Database.EnsureCreated();
-        _context.Students.Load();
-        Students = _context.Students.Local.ToObservableCollection();
+        // _context.Database.EnsureCreated(); // Niepotrzebne, bo korzystamy z IDataAccessService
+        _students = _dataAccessService.LoadData<ObservableCollection<IStudent>>("\\University\\Data.json") ?? new ObservableCollection<IStudent>();
     }
 }
