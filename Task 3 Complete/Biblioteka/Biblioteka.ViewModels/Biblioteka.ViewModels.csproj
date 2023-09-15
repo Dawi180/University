@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0-preview2" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Biblioteka.Data\Biblioteka.Data.csproj" />
+    <ProjectReference Include="..\Biblioteka.Extensions\Biblioteka.Extensions.csproj" />
+    <ProjectReference Include="..\Biblioteka.Interfaces\Biblioteka.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Biblioteka.Controls;component/TextBlocks.xaml" />
+        <ResourceDictionary Source="/Biblioteka.Controls;component/TextBoxes.xaml"/>
+        <ResourceDictionary Source="/Biblioteka.Controls;component/Buttons.xaml" />
+        <ResourceDictionary Source="/Biblioteka.Controls;component/ListViews.xaml"/>
+        <ResourceDictionary Source="/Biblioteka.Controls;component/TabControls.xaml"/>
+        <ResourceDictionary Source="/Biblioteka.Views;component/DataTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
